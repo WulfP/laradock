@@ -50,8 +50,9 @@ RUN set -xe; \
       # base image (https://github.com/Laradock/php-fpm).
       #
       # next lines are here becase there is no auto build on dockerhub see https://github.com/laradock/laradock/pull/1903#issuecomment-463142846
+	  #FIX: https://stackoverflow.com/questions/48700453/docker-image-build-with-php-zip-extension-shows-bundled-libzip-is-deprecated-w
       libzip-dev zip unzip && \
-      docker-php-ext-configure zip --with-libzip && \
+      docker-php-ext-configure zip && \
       # Install the zip extension
       docker-php-ext-install zip && \
       php -m | grep -q 'zip'
@@ -113,7 +114,7 @@ RUN if [ ${INSTALL_SOAP} = true ]; then \
 # XSL:
 ###########################################################################
 
-ARG INSTALL_XSL=false
+ARG INSTALL_XSL=true
 
 RUN if [ ${INSTALL_XSL} = true ]; then \
     # Install the xsl extension
@@ -390,7 +391,8 @@ RUN if [ ${INSTALL_BCMATH} = true ]; then \
 # GMP (GNU Multiple Precision):
 ###########################################################################
 
-ARG INSTALL_GMP=false
+# für Ergo
+ARG INSTALL_GMP=true
 
 RUN if [ ${INSTALL_GMP} = true ]; then \
     # Install the GMP extension
@@ -574,7 +576,7 @@ ARG INSTALL_GHOSTSCRIPT=false
 RUN if [ ${INSTALL_GHOSTSCRIPT} = true ]; then \
     # Install the ghostscript extension
     # for PDF editing
-    apt-get install -y \
+    apt-get update && apt-get install -y \
     poppler-utils \
     ghostscript \
 ;fi

@@ -149,3 +149,5 @@ function fs() {
 		du $arg .[^.]* ./*;
 	fi;
 }
+
+source ~/project_aliases.sh
